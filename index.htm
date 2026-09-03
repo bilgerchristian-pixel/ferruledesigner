@@ -225,19 +225,18 @@
 
         <!-- Prisindikation -->
         <div class="price-badge">
-            🏷️ Pris: Från 25 kr / st (Minsta beställning: 10 st)
+            🏷️ Pris: 25 kr / st (Minsta beställning: 10 st)
         </div>
 
         <div class="info-box">
             <strong>Så här gör du för att beställa:</strong><br>
-            1. Ferrulen har en standardhöjd på 25 mm och är indelad i 0,5mm-segment.<br>
-            2. Max 4 individuella färger per ferrule.<br>
-            3. Alla ringar måste vara färgade innan du skickar förfrågan.<br>
-            4. <strong>Minsta antal för beställning är 10 st.</strong><br>
-            5. Normal leveranstid är <strong>1–4 dagar</strong>.<br>
-            6. Fyll i dina uppgifter nedan så återkommer vi med pris och leveranstid.<br>
+            1. Designa din ferrule i verktyget ovan <u>eller</u> ange namnet på en färdig design från vår Instagram i formuläret.<br>
+            2. Om du målar själv: Max 4 färger per ferrule och alla ringar måste målas.<br>
+            3. <strong>Minsta antal för beställning är 10 st.</strong><br>
+            4. Normal leveranstid är <strong>1–4 dagar</strong>.<br>
+            5. Fyll i dina uppgifter nedan så återkommer vi med orderbekräftelse.<br>
             <br>
-            <em>Saknar du någon färg? Skicka ett mail så löser vi det</em>
+            <em>Saknar du någon färg? Skriv det i meddelandefältet!</em>
         </div>
 
         <form id="orderForm" action="https://formsubmit.co/bilger.christian@gmail.com" method="POST">
@@ -245,6 +244,12 @@
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" id="designDataInput" name="Ferrule_Design">
+
+            <div class="form-group">
+                <label for="presetName">Färdig design från Instagram (valfritt):</label>
+                <input type="text" id="presetName" name="Fardig_Design_Namn" placeholder="T.ex. 'Tiger Special' eller beskrivning från Instagram">
+                <span style="font-size: 12px; color: #666; display: block; margin-top: 4px;">Fyller du i detta behöver du inte färglägga ferrulen ovan.</span>
+            </div>
 
             <div class="form-group">
                 <label for="quantity">Antal ferruler (minst 10 st):</label>
@@ -274,7 +279,7 @@
         <div class="yellow-box">
             Vid frågor eller funderingar, maila oss på:<br>
             <a href="mailto:bilger.christian@gmail.com">bilger.christian@gmail.com</a><br><br>
-            📸 Se fler exempel och följ oss på Instagram:<br>
+            📸 Se färdiga designer och följ oss på Instagram:<br>
             <a href="https://www.instagram.com/cbt.customworks/" target="_blank" rel="noopener">@CBT.customworks</a>
         </div>
     </div>
@@ -282,7 +287,7 @@
     <footer>
         © 2026 CBT AB. Alla rättigheter reserverade.<br>
         Detta verktyg och dess designförslag är skyddade av upphovsrätt.<br>
-        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v1.5</span></span>
+        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v1.6</span></span>
     </footer>
 
     <script>
@@ -423,6 +428,7 @@
         function prepareOrder(event) {
             let designData = [];
             let allColored = true;
+            const presetName = document.getElementById("presetName").value.trim();
 
             const qty = document.getElementById("quantity").value;
             if (qty < 10) {
@@ -442,13 +448,19 @@
                 designData.push(`Ring ${index + 1}: ${colorName}`);
             });
 
-            if (!allColored) {
+            // Om man INTE angivit en färdig design OCH inte färglagt alla segment
+            if (!presetName && !allColored) {
                 event.preventDefault();
-                document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar (inklusive vita) innan du kan skicka!";
+                document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar ELLER ange namnet på en färdig design!";
                 return;
             }
 
-            document.getElementById("designDataInput").value = designData.join(", ");
+            // Sätter vad som skickas i mailet
+            if (presetName) {
+                document.getElementById("designDataInput").value = `FÄRDIG DESIGN VALD: ${presetName}`;
+            } else {
+                document.getElementById("designDataInput").value = designData.join(", ");
+            }
         }
     </script>
 
