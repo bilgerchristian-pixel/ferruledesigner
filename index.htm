@@ -211,6 +211,7 @@
 <body>
 
     <div class="content-wrap">
+        <img src="Gemini_Generated_Image_2lnuu42lnuu42lnu.jpg" alt="CBT Customworks Logotyp" style="max-width: 180px; height: auto; margin-bottom: 10px;">
         <h1>Designa din Ferrule</h1>
         <p>Välj färg, klicka och <b>dra</b> över ringarna för att måla.</p>
 
@@ -225,16 +226,17 @@
 
         <!-- Prisindikation -->
         <div class="price-badge">
-            🏷️ Pris: 25 kr / st (Minsta beställning: 10 st)
+            🏷️ Pris: Från 25 kr / st (Minsta beställning: 10 st)
         </div>
 
         <div class="info-box">
-            <strong>Så här gör du för att beställa:</strong><br>
-            1. Designa din ferrule i verktyget ovan <u>eller</u> ange namnet på en färdig design från vår Instagram i formuläret.<br>
-            2. Om du målar själv: Max 4 färger per ferrule och alla ringar måste målas.<br>
-            3. <strong>Minsta antal för beställning är 10 st.</strong><br>
-            4. Normal leveranstid är <strong>1–4 dagar</strong>.<br>
-            5. Fyll i dina uppgifter nedan så återkommer vi med orderbekräftelse.<br>
+            <strong>Produktinformation & Beställning:</strong><br>
+            • <strong>Passform:</strong> Passar både <strong>.355" tapered</strong> och <strong>.370"</strong> skaft.<br>
+            • <strong>Mått:</strong> Standardhöjd 25 mm, uppdelad i 0,5mm-segment.<br>
+            • Designa själv i verktyget eller ange namnet på en färdig design från vår Instagram.<br>
+            • Max 4 färger per ferrule (även vit måste färgläggas i verktyget).<br>
+            • <strong>Minsta beställning:</strong> 10 st.<br>
+            • <strong>Leveranstid:</strong> Normalt 1–4 dagar.<br>
             <br>
             <em>Saknar du någon färg? Skriv det i meddelandefältet!</em>
         </div>
@@ -287,7 +289,7 @@
     <footer>
         © 2026 CBT AB. Alla rättigheter reserverade.<br>
         Detta verktyg och dess designförslag är skyddade av upphovsrätt.<br>
-        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v1.6</span></span>
+        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v1.7</span></span>
     </footer>
 
     <script>
@@ -295,10 +297,13 @@
             { name: "Svart", hex: "#111111" },
             { name: "Grå", hex: "#888888" },
             { name: "Vit", hex: "#ffffff" },
+            { name: "Röd", hex: "#e74c3c" },
+            { name: "Blå", hex: "#3498db" },
+            { name: "Mörkblå", hex: "#1b2a4a" },
             { name: "Grön", hex: "#2ecc71" },
             { name: "Turkos", hex: "#1abc9c" },
+            { name: "Gul", hex: "#f1c40f" },
             { name: "Orange", hex: "#e67e22" },
-            { name: "Mörkblå", hex: "#1b2a4a" },
             { name: "Lila", hex: "#9b59b6" },
             { name: "Rosa", hex: "#ff69b4" },
             { name: "Silver", hex: "#d0d3d4" },
@@ -448,14 +453,12 @@
                 designData.push(`Ring ${index + 1}: ${colorName}`);
             });
 
-            // Om man INTE angivit en färdig design OCH inte färglagt alla segment
             if (!presetName && !allColored) {
                 event.preventDefault();
                 document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar ELLER ange namnet på en färdig design!";
                 return;
             }
 
-            // Sätter vad som skickas i mailet
             if (presetName) {
                 document.getElementById("designDataInput").value = `FÄRDIG DESIGN VALD: ${presetName}`;
             } else {
