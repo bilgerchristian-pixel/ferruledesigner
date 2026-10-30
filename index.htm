@@ -258,8 +258,8 @@
             <input type="hidden" name="subject" value="Prisförfrågan / Beställning av egen designad Golf Ferrule">
 
             <div class="form-group">
-                <label for="presetName">Färdig design från Instagram (valfritt):</label>
-                <input type="text" id="presetName" placeholder="T.ex. 'Tiger Special' eller beskrivning från Instagram">
+                <label for="instagramDesign">Färdig design från Instagram (valfritt):</label>
+                <input type="text" id="instagramDesign" name="Instagram_Design" placeholder="T.ex. 'Tiger Special' eller beskrivning från Instagram">
                 <span style="font-size: 12px; color: #666; display: block; margin-top: 4px;">Fyller du i detta behöver du inte färglägga ferrulen ovan.</span>
             </div>
 
@@ -299,7 +299,7 @@
     <footer>
         © 2026 CBT AB. Alla rättigheter reserverade.<br>
         Detta verktyg och dess designförslag är skyddade av upphovsrätt.<br>
-        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v2.6</span></span>
+        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v2.8</span></span>
     </footer>
 
     <script>
@@ -445,7 +445,7 @@
         }
 
         function prepareOrder(event) {
-            const presetName = document.getElementById("presetName").value.trim();
+            const instagramName = document.getElementById("instagramDesign").value.trim();
             const qty = document.getElementById("quantity").value;
 
             if (qty < 10) {
@@ -454,35 +454,38 @@
                 return;
             }
 
-            // Rensa bort gamla skapade fält om man klickar flera gånger
+            // Rensa bort gamla dynamiska fält
             document.querySelectorAll(".dynamic-ring-input").forEach(el => el.remove());
             const form = document.getElementById("orderForm");
 
-            if (presetName) {
-                // Om kunden fyllt i en Instagram-design
-                let input = document.createElement("input");
-                input.type = "hidden";
-                input.name = "Färdig_Instagram_Design";
-                input.value = presetName;
-                input.className = "dynamic-ring-input";
-                form.appendChild(input);
-            } else {
-                // Annars: Kontrollera att allt är färgat och skapa ett eget fält per ring
-                let allColored = true;
-                const segments = document.querySelectorAll(".segment");
+            let allColored = true;
+            let anyColored = false;
+            const segments = document.querySelectorAll(".segment");
 
-                segments.forEach(seg => {
-                    if (seg.dataset.colored !== "true") {
-                        allColored = false;
-                    }
-                });
-
-                if (!allColored) {
-                    event.preventDefault();
-                    document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar ELLER ange namnet på en färdig design!";
-                    return;
+            segments.forEach(seg => {
+                if (seg.dataset.colored === "true") {
+                    anyColored = true;
+                } else {
+                    allColored = false;
                 }
+            });
 
+            // Om varken Instagram är ifyllt eller ringar målade -> visa fel
+            if (!instagramName && !anyColored) {
+                event.preventDefault();
+                document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar ELLER ange namnet på en färdig design från Instagram!";
+                return;
+            }
+
+            // Om man ritar i verktyget men inte fyllt i alla ringar (och inte heller har Instagram-namn) -> fel
+            if (!instagramName && !allColored) {
+                event.preventDefault();
+                document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar eller ange en Instagram-design.";
+                return;
+            }
+
+            // Om ringar har målats (oavsett om Instagram är ifyllt eller ej), skicka med ringarna också
+            if (anyColored) {
                 segments.forEach((seg, index) => {
                     const currentHex = seg.dataset.colorHex;
                     const foundColor = colors.find(c => c.hex.toLowerCase() === currentHex);
