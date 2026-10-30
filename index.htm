@@ -256,7 +256,9 @@
         <form id="orderForm" action="https://api.web3forms.com/submit" method="POST">
             <input type="hidden" name="access_key" value="ec8da954-4a43-4879-98fb-23d4fc43336d">
             <input type="hidden" name="subject" value="Prisförfrågan / Beställning av egen designad Golf Ferrule">
-            <input type="hidden" id="designDataInput" name="Ferrule_Design">
+            
+            <!-- Ändrat från input till textarea för att garantera att all design-data följer med -->
+            <textarea id="designDataInput" name="Ferrule_Design" style="display:none;"></textarea>
 
             <div class="form-group">
                 <label for="presetName">Färdig design från Instagram (valfritt):</label>
@@ -300,7 +302,7 @@
     <footer>
         © 2026 CBT AB. Alla rättigheter reserverade.<br>
         Detta verktyg och dess designförslag är skyddade av upphovsrätt.<br>
-        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v2.3</span></span>
+        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v2.4</span></span>
     </footer>
 
     <script>
