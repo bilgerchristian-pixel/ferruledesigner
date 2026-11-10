@@ -245,7 +245,7 @@
             • Designa själv i verktyget eller ange namnet på en färdig design från vår Instagram.<br>
             • Max 4 färger per ferrule (även vit måste färgläggas i verktyget).<br>
             • <strong>Färgåtergivning:</strong> Färgerna som visas på skärmen kan skilja sig något från det slutgiltiga resultatet i verkligheten p.g.a. olika skärminställningar och materialegenskaper.<br>
-            • <strong>Minsta beställning:</strong> 10 st på egendesignade ferruler.<br>
+            • <strong>Minsta beställning:</strong> 10 st.<br>
             • <strong>Leveranstid:</strong> Normalt 1–4 dagar.<br>
             • <strong>Specialmått & specialdesign:</strong> Önskar du specialdesign med andra mått eller har andra specifika önskemål? Skicka ett mejl för förfrågan till <a href="mailto:bilger.christian@gmail.com">bilger.christian@gmail.com</a>.<br>
             <br>
@@ -299,7 +299,7 @@
     <footer>
         © 2026 CBT AB. Alla rättigheter reserverade.<br>
         Detta verktyg och dess designförslag är skyddade av upphovsrätt.<br>
-        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v2.8</span></span>
+        <span style="margin-top: 5px; display: inline-block;">Version: <span class="version-tag">v2.9</span></span>
     </footer>
 
     <script>
@@ -309,15 +309,18 @@
             { name: "Vit", hex: "#ffffff" },
             { name: "Brun", hex: "#795548" },
             { name: "Röd", hex: "#e74c3c" },
+            { name: "Ruby Red", hex: "#8b0000" },
             { name: "Blå", hex: "#3498db" },
             { name: "Mörkblå", hex: "#1b2a4a" },
             { name: "Grön", hex: "#2ecc71" },
+            { name: "Velvet Green", hex: "#1b4d3e" },
             { name: "Turkos", hex: "#1abc9c" },
             { name: "Gul", hex: "#f1c40f" },
             { name: "Orange", hex: "#e67e22" },
             { name: "Lila", hex: "#9b59b6" },
             { name: "Rosa", hex: "#ff69b4" },
             { name: "Brons", hex: "#a57c00" },
+            { name: "Coffee Gold", hex: "#a66b30" },
             { name: "Silver", hex: "#d0d3d4" },
             { name: "Guld", hex: "#d4ac0d" }
         ];
@@ -454,7 +457,6 @@
                 return;
             }
 
-            // Rensa bort gamla dynamiska fält
             document.querySelectorAll(".dynamic-ring-input").forEach(el => el.remove());
             const form = document.getElementById("orderForm");
 
@@ -470,21 +472,18 @@
                 }
             });
 
-            // Om varken Instagram är ifyllt eller ringar målade -> visa fel
             if (!instagramName && !anyColored) {
                 event.preventDefault();
                 document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar ELLER ange namnet på en färdig design från Instagram!";
                 return;
             }
 
-            // Om man ritar i verktyget men inte fyllt i alla ringar (och inte heller har Instagram-namn) -> fel
             if (!instagramName && !allColored) {
                 event.preventDefault();
                 document.getElementById("warning-text").innerText = "Du måste färglägga alla ringar eller ange en Instagram-design.";
                 return;
             }
 
-            // Om ringar har målats (oavsett om Instagram är ifyllt eller ej), skicka med ringarna också
             if (anyColored) {
                 segments.forEach((seg, index) => {
                     const currentHex = seg.dataset.colorHex;
